@@ -249,8 +249,8 @@
                         <button id="registerButton">Register Network</button>
                     </div>
                 `;
-                document.getElementById('registerButton').addEventListener('click', registerNetwork);
             }
+            document.getElementById('registerButton').addEventListener('click', registerNetwork);
         }
 
         async function updateRewardsAndPrice() {
@@ -307,6 +307,7 @@
                 showModal('Registered with WoofRewards successfully! 🎉');
             } catch (error) {
                 showModal('Failed to register. Please try again.');
+                console.error('Register error:', error);
             }
             updateRegisterSection();
             updateRewardsAndPrice();
@@ -330,6 +331,7 @@
                 } else {
                     showModal('Failed to claim rewards. Check price or wallet.');
                 }
+                console.error('Claim error:', error);
             }
             updateWoofBalance();
             updateRewardsAndPrice();
@@ -348,7 +350,6 @@
                 accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 if (!accounts.length) {
                     showModal('Please unlock your wallet or connect it.');
-                    connectButton.classList.remove('loading');
                     return;
                 }
                 const chainId = await web3.eth.getChainId();
@@ -366,7 +367,6 @@
                             });
                         } else {
                             showModal('Failed to switch network. Please add Shibarium manually.');
-                            connectButton.classList.remove('loading');
                             return;
                         }
                     }
@@ -374,14 +374,14 @@
                 document.getElementById('walletAddress').innerText = `${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
                 woofContract = new web3.eth.Contract(WOOF_REWARDS_ABI, WOOF_REWARDS_ADDRESS);
                 noneContract = new web3.eth.Contract(NONE_TOKEN_ABI, NONE_TOKEN_ADDRESS);
-                showModal('Connected to Shibarium successfully! 🎉');
                 await updateWoofBalance();
                 await updateUserInfo(accounts[0]);
                 await updateRegisterSection();
                 await updateRewardsAndPrice();
+                showModal('Connected to Shibarium successfully! 🎉');
             } catch (error) {
                 showModal('Failed to connect wallet. Check MetaMask and network.');
-                console.error(error);
+                console.error('Connect error:', error);
             }
             connectButton.classList.remove('loading');
         }
@@ -391,6 +391,7 @@
         setInterval(updateRewardsAndPrice, 5000);
 
         document.getElementById('connectButton').addEventListener('click', connectWallet);
+        document.getElementById('registerButton').addEventListener('click', registerNetwork);
         document.getElementById('claimButton').addEventListener('click', claimRewards);
 
         window.ethereum?.on('chainChanged', (chainId) => {
