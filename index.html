@@ -292,7 +292,7 @@
             <div class="section-title">User ID & Reduction Rules</div>
             <div class="info-panel" id="userIdInfo">
                 User ID: N/A<br>
-                Reduction Rules: Node reward reduces by 1% every 100 users
+                Reduction Rules: Every 10000 users, rewards decrease by: Node: 10000 WOOF, Join: 100 WOOF, Referral: 10 WOOF until minimums (10000, 100, 10) WOOF
             </div>
         </div>
     </div>
@@ -476,7 +476,7 @@
                 document.getElementById('userRewards').innerHTML = 'Node Reward: 0 WOOF<br>Join Reward: 0 WOOF<br>Referral Reward: 0 WOOF<br>Total: 0 WOOF';
                 document.getElementById('priceInfo').innerHTML = 'Current WOOF/BONE Price: 0.00000 BONE<br>Target Price: 0.05 BONE';
                 document.getElementById('rewardWoof').innerText = 'Total Rewards: 0 WOOF';
-                document.getElementById('userIdInfo').innerHTML = 'User ID: N/A<br>Reduction Rules: Node reward reduces by 1% every 100 users';
+                document.getElementById('userIdInfo').innerHTML = 'User ID: N/A<br>Reduction Rules: Every 10000 users, rewards decrease by: Node: 10000 WOOF, Join: 100 WOOF, Referral: 10 WOOF until minimums (10000, 100, 10) WOOF';
                 return;
             }
             const userInfo = await woofContract.methods.getUserInfo(accounts[0]).call();
@@ -503,10 +503,15 @@
 
             const userId = await woofContract.methods.userId(accounts[0]).call();
             const reductionNode = await woofContract.methods.REWARD_REDUCTION_NODE().call();
+            const reductionJoin = await woofContract.methods.REWARD_REDUCTION_JOIN().call();
+            const reductionReferral = await woofContract.methods.REWARD_REDUCTION_REFERRAL().call();
             const usersPerReduction = await woofContract.methods.USERS_PER_REDUCTION().call();
+            const minNodeReward = await woofContract.methods.MIN_NODE_REWARD().call();
+            const minJoinReward = await woofContract.methods.MIN_JOIN_REWARD().call();
+            const minReferralReward = await woofContract.methods.MIN_REFERRAL_REWARD().call();
             document.getElementById('userIdInfo').innerHTML = `
                 User ID: ${userId}<br>
-                Reduction Rules: Node reward reduces by ${web3.utils.fromWei(reductionNode, 'ether')}% every ${web3.utils.fromWei(usersPerReduction, 'ether')} users
+                Reduction Rules: Every ${usersPerReduction} users, rewards decrease by: Node: ${web3.utils.fromWei(reductionNode, 'ether')} WOOF, Join: ${web3.utils.fromWei(reductionJoin, 'ether')} WOOF, Referral: ${web3.utils.fromWei(reductionReferral, 'ether')} WOOF until minimums (${web3.utils.fromWei(minNodeReward, 'ether')}, ${web3.utils.fromWei(minJoinReward, 'ether')}, ${web3.utils.fromWei(minReferralReward, 'ether')}) WOOF
             `;
         }
 
