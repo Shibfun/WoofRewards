@@ -177,6 +177,11 @@
             opacity: 0.7;
             pointer-events: none;
         }
+        button.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
         .info-panel {
             background: #34495E;
             padding: 10px;
@@ -306,7 +311,7 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
     <script>
         let web3, accounts, woofContract, noneContract;
-        const WOOF_REWARDS_ADDRESS = "0x200039346EED71Ae909353406B3243E4508A5c81";
+        const WOOF_REWARDS_ADDRESS = "0xedD5763Ca586B15a2b8463f79c08B675C165312d";
         const NONE_TOKEN_ADDRESS = "0x64E19b6a167878d2483d166212A3c2c68b1eB842";
         const WOOFCHAT_ADDRESS = "0xf34614AaBF9F83cF484c7CA29F6C76AD2be6c00B";
         const PUNKPET_ADDRESS = "0x87BAf75990F5972b2cfa592f7efF691efb55596E";
@@ -466,6 +471,7 @@
                 `;
                 document.getElementById('registerButton').addEventListener('click', registerNetwork);
             }
+            updateButtonStates();
         }
 
         async function updateRewardsAndPrice() {
@@ -507,6 +513,7 @@
                 User ID: ${userId}<br>
                 Reduction Rules: Every ${usersPerReduction} users, rewards decrease by: Node: ${web3.utils.fromWei(reductionNode, 'ether')} WOOF, Join: ${web3.utils.fromWei(reductionJoin, 'ether')} WOOF, Referral: ${web3.utils.fromWei(reductionReferral, 'ether')} WOOF until minimums (${web3.utils.fromWei(minNodeReward, 'ether')}, ${web3.utils.fromWei(minJoinReward, 'ether')}, ${web3.utils.fromWei(minReferralReward, 'ether')}) WOOF
             `;
+            updateButtonStates();
         }
 
         async function registerNetwork() {
@@ -580,6 +587,25 @@
             updateRegisterSection();
             updateRewardsAndPrice();
             connectButton.classList.remove('loading');
+        }
+
+        function updateButtonStates() {
+            if (!web3 || !accounts || !noneContract) return;
+            noneContract.methods.hasJoined(accounts[0]).call().then(hasJoined => {
+                const registerButton = document.getElementById('registerButton');
+                const claimButton = document.getElementById('claimButton');
+                if (!hasJoined) {
+                    registerButton.classList.add('disabled');
+                    registerButton.disabled = true;
+                    claimButton.classList.add('disabled');
+                    claimButton.disabled = true;
+                } else {
+                    registerButton.classList.remove('disabled');
+                    registerButton.disabled = false;
+                    claimButton.classList.remove('disabled');
+                    claimButton.disabled = false;
+                }
+            });
         }
 
         setInterval(updatePrompt, 3000);
