@@ -285,7 +285,10 @@
             <div class="info-panel" id="userRewards">
                 Node Reward: 0 WOOF<br>Join Reward: 0 WOOF<br>Referral Reward: 0 WOOF<br>Total: 0 WOOF
             </div>
-            <div class="price-info" id="priceInfo">Current WOOF/BONE Price: 0 ETH<br>Target Price: 0.05 ETH</div>
+            <div class="price-info" id="priceInfo">
+                Current WOOF/BONE Price: 0 ETH<br>
+                Target Price: 0.05 ETH
+            </div>
             <div class="button-group">
                 <button id="claimButton">Claim Rewards</button>
             </div>
@@ -306,145 +309,9 @@
         const WOOFCHAT_ADDRESS = "0xf34614AaBF9F83cF484c7CA29F6C76AD2be6c00B";
         const PUNKPET_ADDRESS = "0x87BAf75990F5972b2cfa592f7efF691efb55596E";
 
-        const WOOF_REWARDS_ABI = [
-            {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
-            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Deposited","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"bool","name":"bypass","type":"bool"}],"name":"BypassPriceCheckUpdated","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newPrice","type":"uint256"}],"name":"FallbackPriceUpdated","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"bool","name":"status","type":"bool"}],"name":"Paused","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"oldThreshold","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newThreshold","type":"uint256"}],"name":"PriceThresholdUpdated","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"nodeReward","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"joinReward","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"referralReward","type":"uint256"}],"name":"RewardsClaimed","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"}],"name":"RewardsReset","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"bool","name":"claimed","type":"bool"}],"name":"UserClaimed","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"userId","type":"uint256"}],"name":"UserJoined","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"bool","name":"joined","type":"bool"}],"name":"UserJoinedUpdated","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"bool","name":"useFallback","type":"bool"}],"name":"UseFallbackPriceUpdated","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Withdrawn","type":"event"},
-            {"inputs":[],"name":"BASE_JOIN_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"BASE_NODE_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"BASE_REFERRAL_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"MAX_USERS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"MIN_JOIN_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"MIN_NODE_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"MIN_REFERRAL_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"REWARD_REDUCTION_JOIN","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"REWARD_REDUCTION_NODE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"REWARD_REDUCTION_REFERRAL","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"USERS_PER_REDUCTION","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"WOOF_TOKEN","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"bypassPriceCheck","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"claimRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"depositWoof","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"fallbackWoofPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getJoinedUsersCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address[]","name":"users","type":"address[]"}],"name":"getTotalPendingRewards","outputs":[{"internalType":"uint256","name":"totalPendingRewards","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"uint256","name":"userIdValue","type":"uint256"},{"internalType":"uint256","name":"nodeReward","type":"uint256"},{"internalType":"uint256","name":"joinReward","type":"uint256"},{"internalType":"uint256","name":"referralReward","type":"uint256"},{"internalType":"uint256","name":"totalReward","type":"uint256"},{"internalType":"bool","name":"isNode","type":"bool"},{"internalType":"bool","name":"hasJoinedUser","type":"bool"},{"internalType":"uint256","name":"referralCount","type":"uint256"},{"internalType":"bool","name":"canClaim","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"getWoofBonePrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"hasClaimed","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"hasJoined","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"join","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"nextUserId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"noneToken","outputs":[{"internalType":"contract INoneToken","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"resetRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"bool","name":"_bypass","type":"bool"}],"name":"setBypassPriceCheck","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"newPrice","type":"uint256"}],"name":"setFallbackWoofPrice","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"bool","name":"_paused","type":"bool"}],"name":"setPaused","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"newThreshold","type":"uint256"}],"name":"setPriceThreshold","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"bool","name":"_useFallback","type":"bool"}],"name":"setUseFallbackPrice","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"totalJoinedUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"userId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"useFallbackPrice","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"withdrawWoof","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"woofDao","outputs":[{"internalType":"contract IWoofDao","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"woofPriceThreshold","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"woofToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"}
-        ];
+        const WOOF_REWARDS_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Deposited","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"bool","name":"bypass","type":"bool"}],"name":"BypassPriceCheckUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newPrice","type":"uint256"}],"name":"FallbackPriceUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"bool","name":"status","type":"bool"}],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"oldThreshold","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newThreshold","type":"uint256"}],"name":"PriceThresholdUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"nodeReward","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"joinReward","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"referralReward","type":"uint256"}],"name":"RewardsClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"}],"name":"RewardsReset","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"bool","name":"claimed","type":"bool"}],"name":"UserClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"userId","type":"uint256"}],"name":"UserJoined","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"bool","name":"joined","type":"bool"}],"name":"UserJoinedUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"bool","name":"useFallback","type":"bool"}],"name":"UseFallbackPriceUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Withdrawn","type":"event"},{"inputs":[],"name":"BASE_JOIN_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"BASE_NODE_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"BASE_REFERRAL_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MAX_USERS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_JOIN_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_NODE_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_REFERRAL_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"REWARD_REDUCTION_JOIN","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"REWARD_REDUCTION_NODE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"REWARD_REDUCTION_REFERRAL","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"USERS_PER_REDUCTION","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"WOOF_TOKEN","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"bypassPriceCheck","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"claimRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"depositWoof","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"fallbackWoofPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getJoinedUsersCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address[]","name":"users","type":"address[]"}],"name":"getTotalPendingRewards","outputs":[{"internalType":"uint256","name":"totalPendingRewards","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"uint256","name":"userIdValue","type":"uint256"},{"internalType":"uint256","name":"nodeReward","type":"uint256"},{"internalType":"uint256","name":"joinReward","type":"uint256"},{"internalType":"uint256","name":"referralReward","type":"uint256"},{"internalType":"uint256","name":"totalReward","type":"uint256"},{"internalType":"bool","name":"isNode","type":"bool"},{"internalType":"bool","name":"hasJoinedUser","type":"bool"},{"internalType":"uint256","name":"referralCount","type":"uint256"},{"internalType":"bool","name":"canClaim","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getWoofBonePrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"hasClaimed","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"hasJoined","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"join","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"nextUserId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"noneToken","outputs":[{"internalType":"contract INoneToken","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"resetRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bool","name":"_bypass","type":"bool"}],"name":"setBypassPriceCheck","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"newPrice","type":"uint256"}],"name":"setFallbackWoofPrice","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bool","name":"_paused","type":"bool"}],"name":"setPaused","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"newThreshold","type":"uint256"}],"name":"setPriceThreshold","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bool","name":"_useFallback","type":"bool"}],"name":"setUseFallbackPrice","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalJoinedUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"userId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"useFallbackPrice","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdrawWoof","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"woofDao","outputs":[{"internalType":"contract IWoofDao","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"woofPriceThreshold","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"woofToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
 
-        const NONE_TOKEN_ABI = [
-            {"inputs":[],"stateMutability":"payable","type":"constructor"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"BoneRewardPending","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"BoneRewardsLocked","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"BoneWithdrawn","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"BoneCollectedUpdated","type":"event"},
-            {"anonymous":false,"inputs":[],"name":"MiningEnded","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"NoneBurned","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newValue","type":"uint256"}],"name":"NonePerBlockUpdated","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"node","type":"address"}],"name":"NodeAdded","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"}],"name":"ReferralAdded","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"totalAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"nodeAmount","type":"uint256"}],"name":"RewardsClaimed","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"nodeId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Staked","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"nodeId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"StakeWithdrawn","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},
-            {"inputs":[],"name":"BONE_PAYMENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"INITIAL_MINING_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"INITIAL_STAKE_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"MAX_BONE_REWARDS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"MAX_NODES","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"MAX_SUPPLY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"MIN_MINING_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"MIN_STAKE_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"MIN_STAKE_UNIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"NODE_PAYMENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"REFERRAL_BONUS_PERCENTAGE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"becomeNode","outputs":[],"stateMutability":"payable","type":"function"},
-            {"inputs":[],"name":"boneCollected","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"subtractedValue","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"nodeId","type":"uint256"}],"name":"getNodeStakes","outputs":[{"internalType":"uint256","name":"stakesTotal","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"getReductionProgress","outputs":[{"internalType":"uint256","name":"reductionsDone","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getReferralInfo","outputs":[{"internalType":"uint256","name":"count","type":"uint256"},{"internalType":"uint256","name":"reward","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"},{"internalType":"address[10]","name":"path","type":"address[10]"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getRewardInfo","outputs":[{"internalType":"uint256","name":"perBlock","type":"uint256"},{"internalType":"uint256","name":"pendingBone","type":"uint256"},{"internalType":"uint256","name":"totalBone","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getStakeInfo","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"nodeId","type":"uint256"},{"internalType":"uint256","name":"lastBlock","type":"uint256"},{"internalType":"uint256","name":"stakeReward","type":"uint256"},{"internalType":"uint256","name":"nodeReward","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserStatus","outputs":[{"internalType":"bool","name":"joined","type":"bool"},{"internalType":"bool","name":"paidBone","type":"bool"},{"internalType":"bool","name":"nodeStatus","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"hasJoined","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"hasPaidBone","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"isNode","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"address","name":"user","type":"address"}],"name":"isReferral","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"isUserNode","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"_referrer","type":"address"}],"name":"joinWithReferrer","outputs":[],"stateMutability":"payable","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"lastWithdrawalBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"miningEnded","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"nodeCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"nodeAddresses","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"nodeTotalStakes","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"nonePerBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"pendingBoneRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"referralCounts","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"referralPath","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"referrers","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"nodeId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"stakeToNode","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"startBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"stakedAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"lastUpdateBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"totalBoneRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"totalMinedAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"totalMinedBlocks","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"totalNodeRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"totalStaked","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"userInfo","outputs":[{"internalType":"uint256","name":"principal","type":"uint256"},{"internalType":"uint256","name":"lastRewardBlock","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"userNodeStake","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"withdrawAllBone","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"withdrawBoneWithReserve","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"withdrawStake","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserNodeId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-        ];
+        const NONE_TOKEN_ABI = [{"inputs":[],"stateMutability":"payable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"BoneRewardPending","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"BoneRewardsLocked","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"BoneWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"BoneCollectedUpdated","type":"event"},{"anonymous":false,"inputs":[],"name":"MiningEnded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"NoneBurned","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newValue","type":"uint256"}],"name":"NonePerBlockUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"node","type":"address"}],"name":"NodeAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"}],"name":"ReferralAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"totalAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"nodeAmount","type":"uint256"}],"name":"RewardsClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"nodeId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Staked","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"nodeId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"StakeWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[],"name":"BONE_PAYMENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"INITIAL_MINING_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"INITIAL_STAKE_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MAX_BONE_REWARDS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MAX_NODES","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MAX_SUPPLY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_MINING_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_STAKE_REWARD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_STAKE_UNIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"NODE_PAYMENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"REFERRAL_BONUS_PERCENTAGE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"becomeNode","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"boneCollected","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"subtractedValue","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"nodeId","type":"uint256"}],"name":"getNodeStakes","outputs":[{"internalType":"uint256","name":"stakesTotal","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getReductionProgress","outputs":[{"internalType":"uint256","name":"reductionsDone","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getReferralInfo","outputs":[{"internalType":"uint256","name":"count","type":"uint256"},{"internalType":"uint256","name":"reward","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"},{"internalType":"address[10]","name":"path","type":"address[10]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getRewardInfo","outputs":[{"internalType":"uint256","name":"perBlock","type":"uint256"},{"internalType":"uint256","name":"pendingBone","type":"uint256"},{"internalType":"uint256","name":"totalBone","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getStakeInfo","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"nodeId","type":"uint256"},{"internalType":"uint256","name":"lastBlock","type":"uint256"},{"internalType":"uint256","name":"stakeReward","type":"uint256"},{"internalType":"uint256","name":"nodeReward","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserStatus","outputs":[{"internalType":"bool","name":"joined","type":"bool"},{"internalType":"bool","name":"paidBone","type":"bool"},{"internalType":"bool","name":"nodeStatus","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"hasJoined","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"hasPaidBone","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"isNode","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"address","name":"user","type":"address"}],"name":"isReferral","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"isUserNode","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_referrer","type":"address"}],"name":"joinWithReferrer","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"lastWithdrawalBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"miningEnded","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nodeCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"nodeAddresses","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"nodeTotalStakes","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nonePerBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"pendingBoneRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"referralCounts","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"referralPath","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"referrers","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"nodeId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"stakeToNode","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"startBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"stakedAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"lastUpdateBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalBoneRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalMinedAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalMinedBlocks","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalNodeRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalStaked","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"userInfo","outputs":[{"internalType":"uint256","name":"principal","type":"uint256"},{"internalType":"uint256","name":"lastRewardBlock","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"userNodeStake","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdrawAllBone","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawBoneWithReserve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawStake","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserNodeId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
 
         const WOOFCHAT_ABI = [{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getNickname","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}];
         const PUNKPET_ABI = [{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserPets","outputs":[{"internalType":"uint256[]","name":"petIds","type":"uint256[]"},{"internalType":"uint256[]","name":"petTypes","type":"uint256[]"},{"internalType":"uint256[]","name":"nextFeedTimes","type":"uint256[]"},{"internalType":"uint256[]","name":"feedCounts","type":"uint256[]"}],"stateMutability":"view","type":"function"}];
@@ -481,7 +348,6 @@
         ];
         let promptIndex = 0;
 
-        // UI 更新函数
         function showModal(message) {
             document.getElementById('modalMessage').innerHTML = message;
             document.getElementById('modal').style.display = 'flex';
@@ -496,7 +362,6 @@
             promptIndex = (promptIndex + 1) % prompts.length;
         }
 
-        // 异步加载图片
         async function testImageLoad(url) {
             return new Promise((resolve) => {
                 const img = new Image();
@@ -506,7 +371,6 @@
             });
         }
 
-        // 更新用户信息（头像、昵称等）
         async function updateUserInfo(address) {
             if (!web3 || !address) {
                 document.getElementById('userNickname').innerText = 'Woof Wallet';
@@ -516,66 +380,52 @@
             }
 
             const woofChatContract = new web3.eth.Contract(WOOFCHAT_ABI, WOOFCHAT_ADDRESS);
-            try {
-                const nickname = await woofChatContract.methods.getNickname(address).call();
-                document.getElementById('userNickname').innerText = nickname || address.slice(0, 6) + "..." + address.slice(-4);
-            } catch (error) {
-                document.getElementById('userNickname').innerText = address.slice(0, 6) + "..." + address.slice(-4);
-            }
+            const nickname = await woofChatContract.methods.getNickname(address).call();
+            document.getElementById('userNickname').innerText = nickname || address.slice(0, 6) + "..." + address.slice(-4);
 
-            try {
-                const userStatus = await noneContract.methods.getUserStatus(address).call();
-                const referralInfo = await noneContract.methods.getReferralInfo(address).call();
-                const joined = userStatus[0];
-                const paidBone = userStatus[1];
-                const isNode = userStatus[2];
-                const referralCount = referralInfo[0];
-                const vIcon = document.getElementById('vIcon');
-                let selectedVIcon = null;
-                if (isNode === true || isNode === "true") {
-                    selectedVIcon = "images/300.png";
-                } else if (parseInt(referralCount) >= 10) {
-                    selectedVIcon = "images/200.png";
-                } else if (paidBone === true || paidBone === "true") {
-                    selectedVIcon = "images/100.png";
+            const userStatus = await noneContract.methods.getUserStatus(address).call();
+            const referralInfo = await noneContract.methods.getReferralInfo(address).call();
+            const joined = userStatus[0];
+            const paidBone = userStatus[1];
+            const isNode = userStatus[2];
+            const referralCount = referralInfo[0];
+            const vIcon = document.getElementById('vIcon');
+            let selectedVIcon = null;
+            if (isNode === true || isNode === "true") {
+                selectedVIcon = "images/300.png";
+            } else if (parseInt(referralCount) >= 10) {
+                selectedVIcon = "images/200.png";
+            } else if (paidBone === true || paidBone === "true") {
+                selectedVIcon = "images/100.png";
+            } else {
+                vIcon.style.display = "none";
+            }
+            if (selectedVIcon) {
+                const vIconLoaded = await testImageLoad(selectedVIcon);
+                if (vIconLoaded) {
+                    vIcon.src = selectedVIcon;
+                    vIcon.style.display = "inline";
                 } else {
                     vIcon.style.display = "none";
                 }
-                if (selectedVIcon) {
-                    const vIconLoaded = await testImageLoad(selectedVIcon);
-                    if (vIconLoaded) {
-                        vIcon.src = selectedVIcon;
-                        vIcon.style.display = "inline";
-                    } else {
-                        vIcon.style.display = "none";
-                    }
-                }
-            } catch (error) {
-                document.getElementById('vIcon').style.display = "none";
             }
 
             const punkPetContract = new web3.eth.Contract(PUNKPET_ABI, PUNKPET_ADDRESS);
             const userAvatar = document.getElementById('userAvatar');
-            try {
-                const result = await punkPetContract.methods.getUserPets(address).call();
-                const petTypes = result[1];
-                if (petTypes && Array.isArray(petTypes) && petTypes.length > 0) {
-                    const validPetTypes = petTypes
-                        .map(t => {
-                            const num = typeof t === 'string' ? parseInt(t, 10) : Number(t);
-                            return isNaN(num) ? 0 : (num >= 1 && num <= 77 ? num : 0);
-                        })
-                        .filter(t => t >= 1 && t <= 77);
-                    if (validPetTypes.length > 0) {
-                        const maxPetType = Math.max(...validPetTypes);
-                        if (maxPetType >= 1 && maxPetType <= 77 && avatarImages[maxPetType]) {
-                            const avatarUrl = `images/${avatarImages[maxPetType]}`;
-                            const avatarLoaded = await testImageLoad(avatarUrl);
-                            if (avatarLoaded) {
-                                userAvatar.src = avatarUrl;
-                            } else {
-                                userAvatar.src = "images/default-avatar.png";
-                            }
+            const result = await punkPetContract.methods.getUserPets(address).call();
+            const petTypes = result[1];
+            if (petTypes && Array.isArray(petTypes) && petTypes.length > 0) {
+                const validPetTypes = petTypes.map(t => {
+                    const num = typeof t === 'string' ? parseInt(t, 10) : Number(t);
+                    return isNaN(num) ? 0 : (num >= 1 && num <= 77 ? num : 0);
+                }).filter(t => t >= 1 && t <= 77);
+                if (validPetTypes.length > 0) {
+                    const maxPetType = Math.max(...validPetTypes);
+                    if (maxPetType >= 1 && maxPetType <= 77 && avatarImages[maxPetType]) {
+                        const avatarUrl = `images/${avatarImages[maxPetType]}`;
+                        const avatarLoaded = await testImageLoad(avatarUrl);
+                        if (avatarLoaded) {
+                            userAvatar.src = avatarUrl;
                         } else {
                             userAvatar.src = "images/default-avatar.png";
                         }
@@ -585,52 +435,40 @@
                 } else {
                     userAvatar.src = "images/default-avatar.png";
                 }
-            } catch (error) {
+            } else {
                 userAvatar.src = "images/default-avatar.png";
             }
         }
 
-        // 更新 WOOF 余额
         async function updateWoofBalance() {
             if (!web3 || !woofContract || !accounts) {
                 document.getElementById('woofBalance').innerText = '0 WOOF';
                 return;
             }
-            try {
-                const balance = await woofContract.methods.balanceOf(accounts[0]).call();
-                document.getElementById('woofBalance').innerText = `${web3.utils.fromWei(balance, "ether")} WOOF`;
-            } catch (error) {
-                console.error('Failed to update WOOF balance:', error);
-                document.getElementById('woofBalance').innerText = '0 WOOF';
-            }
+            const balance = await woofContract.methods.balanceOf(accounts[0]).call();
+            document.getElementById('woofBalance').innerText = `${web3.utils.fromWei(balance, "ether")} WOOF`;
         }
 
-        // 更新加入状态
         async function updateJoinSection() {
             if (!web3 || !woofContract || !accounts) return;
-            try {
-                const hasJoined = await woofContract.methods.hasJoined(accounts[0]).call();
-                const joinSection = document.getElementById('joinSection');
-                if (hasJoined) {
-                    joinSection.innerHTML = `
-                        <div class="section-title" id="joinTitle">Join WoofRewards</div>
-                        <div class="info-panel">You have already joined WoofRewards.</div>
-                    `;
-                } else {
-                    joinSection.innerHTML = `
-                        <div class="section-title" id="joinTitle">Join WoofRewards</div>
-                        <div class="button-group">
-                            <button id="joinButton">Join Network</button>
-                        </div>
-                    `;
-                    document.getElementById('joinButton').addEventListener('click', joinNetwork);
-                }
-            } catch (error) {
-                showModal(`Failed to check join status: ${error.message}`);
+            const hasJoined = await woofContract.methods.hasJoined(accounts[0]).call();
+            const joinSection = document.getElementById('joinSection');
+            if (hasJoined) {
+                joinSection.innerHTML = `
+                    <div class="section-title" id="joinTitle">Join WoofRewards</div>
+                    <div class="info-panel">You have already joined WoofRewards.</div>
+                `;
+            } else {
+                joinSection.innerHTML = `
+                    <div class="section-title" id="joinTitle">Join WoofRewards</div>
+                    <div class="button-group">
+                        <button id="joinButton">Join Network</button>
+                    </div>
+                `;
+                document.getElementById('joinButton').addEventListener('click', joinNetwork);
             }
         }
 
-        // 更新奖励和价格信息
         async function updateRewardsAndPrice() {
             if (!web3 || !woofContract || !accounts) {
                 document.getElementById('userRewards').innerHTML = 'Node Reward: 0 WOOF<br>Join Reward: 0 WOOF<br>Referral Reward: 0 WOOF<br>Total: 0 WOOF';
@@ -638,132 +476,105 @@
                 document.getElementById('rewardWoof').innerText = 'Total Rewards: 0 WOOF';
                 return;
             }
-            try {
-                const userInfo = await woofContract.methods.getUserInfo(accounts[0]).call();
-                const nodeReward = web3.utils.fromWei(userInfo.nodeReward, 'ether');
-                const joinReward = web3.utils.fromWei(userInfo.joinReward, 'ether');
-                const referralReward = web3.utils.fromWei(userInfo.referralReward, 'ether');
-                const totalReward = web3.utils.fromWei(userInfo.totalReward, 'ether');
+            const userInfo = await woofContract.methods.getUserInfo(accounts[0]).call();
+            const nodeReward = web3.utils.fromWei(userInfo.nodeReward, 'ether');
+            const joinReward = web3.utils.fromWei(userInfo.joinReward, 'ether');
+            const referralReward = web3.utils.fromWei(userInfo.referralReward, 'ether');
+            const totalReward = web3.utils.fromWei(userInfo.totalReward, 'ether');
 
-                document.getElementById('userRewards').innerHTML = `
-                    Node Reward: ${parseFloat(nodeReward).toFixed(2)} WOOF<br>
-                    Join Reward: ${parseFloat(joinReward).toFixed(2)} WOOF<br>
-                    Referral Reward: ${parseFloat(referralReward).toFixed(2)} WOOF<br>
-                    Total: ${parseFloat(totalReward).toFixed(2)} WOOF
-                `;
-                document.getElementById('rewardWoof').innerText = `Total Rewards: ${parseFloat(totalReward).toFixed(2)} WOOF`;
+            document.getElementById('userRewards').innerHTML = `
+                Node Reward: ${parseFloat(nodeReward).toFixed(2)} WOOF<br>
+                Join Reward: ${parseFloat(joinReward).toFixed(2)} WOOF<br>
+                Referral Reward: ${parseFloat(referralReward).toFixed(2)} WOOF<br>
+                Total: ${parseFloat(totalReward).toFixed(2)} WOOF
+            `;
+            document.getElementById('rewardWoof').innerText = `Total Rewards: ${parseFloat(totalReward).toFixed(2)} WOOF`;
 
-                const currentPrice = await woofContract.methods.getWoofBonePrice().call();
-                const targetPrice = await woofContract.methods.woofPriceThreshold().call();
-                document.getElementById('priceInfo').innerHTML = `
-                    Current WOOF/BONE Price: ${web3.utils.fromWei(currentPrice, 'ether')} ETH<br>
-                    Target Price: ${web3.utils.fromWei(targetPrice, 'ether')} ETH
-                `;
-            } catch (error) {
-                console.error('Failed to update rewards and price:', error);
-                document.getElementById('userRewards').innerHTML = 'Node Reward: 0 WOOF<br>Join Reward: 0 WOOF<br>Referral Reward: 0 WOOF<br>Total: 0 WOOF';
-                document.getElementById('priceInfo').innerHTML = 'Current WOOF/BONE Price: 0 ETH<br>Target Price: 0.05 ETH';
-                document.getElementById('rewardWoof').innerText = 'Total Rewards: 0 WOOF';
-            }
+            const currentPrice = await woofContract.methods.getWoofBonePrice().call();
+            const targetPrice = await woofContract.methods.woofPriceThreshold().call();
+            document.getElementById('priceInfo').innerHTML = `
+                Current WOOF/BONE Price: ${web3.utils.fromWei(currentPrice, 'ether')} ETH<br>
+                Target Price: ${web3.utils.fromWei(targetPrice, 'ether')} ETH
+            `;
         }
 
-        // 加入网络
         async function joinNetwork() {
             if (!web3 || !woofContract || !accounts) {
                 showModal('Please connect your wallet first! 🔧');
                 return;
             }
             const joinButton = document.getElementById('joinButton');
-            try {
-                joinButton.classList.add('loading');
-                showModal('Joining WoofRewards network... ⛏️');
-                await woofContract.methods.join().send({ from: accounts[0] });
-                showModal('Joined WoofRewards successfully! 🎉');
-                updateJoinSection();
-                updateRewardsAndPrice();
-            } catch (error) {
-                showModal(`Join failed: ${error.message}`);
-            } finally {
-                joinButton.classList.remove('loading');
-            }
+            joinButton.classList.add('loading');
+            showModal('Joining WoofRewards network... ⛏️');
+            await woofContract.methods.join().send({ from: accounts[0] });
+            showModal('Joined WoofRewards successfully! 🎉');
+            updateJoinSection();
+            updateRewardsAndPrice();
+            joinButton.classList.remove('loading');
         }
 
-        // 领取奖励
         async function claimRewards() {
             if (!web3 || !woofContract || !accounts) {
                 showModal('Please connect your wallet first! 🔧');
                 return;
             }
             const claimButton = document.getElementById('claimButton');
-            try {
-                claimButton.classList.add('loading');
-                showModal('Claiming your WOOF rewards... 💰');
-                await woofContract.methods.claimRewards().send({ from: accounts[0] });
-                showModal('Rewards claimed successfully! 🎊');
-                updateWoofBalance();
-                updateRewardsAndPrice();
-            } catch (error) {
-                showModal(`Claim failed: ${error.message}`);
-            } finally {
-                claimButton.classList.remove('loading');
-            }
+            claimButton.classList.add('loading');
+            showModal('Claiming your WOOF rewards... 💰');
+            await woofContract.methods.claimRewards().send({ from: accounts[0] });
+            showModal('Rewards claimed successfully! 🎊');
+            updateWoofBalance();
+            updateRewardsAndPrice();
+            claimButton.classList.remove('loading');
         }
 
-        // 连接钱包
         async function connectWallet() {
             const connectButton = document.getElementById('connectButton');
-            try {
-                if (!window.ethereum) {
-                    showModal('No wallet detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a> and run via a local server (e.g., "npx serve").');
-                    return;
-                }
-                connectButton.classList.add('loading');
-                web3 = new Web3(window.ethereum);
-                accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                if (!accounts.length) {
-                    showModal('Please unlock your wallet or connect it.');
-                    return;
-                }
-                const chainId = await web3.eth.getChainId();
-                if (chainId !== 109) {
-                    try {
+            if (!window.ethereum) {
+                showModal('No wallet detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a> and run via a local server (e.g., "npx serve").');
+                return;
+            }
+            connectButton.classList.add('loading');
+            web3 = new Web3(window.ethereum);
+            accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            if (!accounts.length) {
+                showModal('Please unlock your wallet or connect it.');
+                return;
+            }
+            const chainId = await web3.eth.getChainId();
+            if (chainId !== 109) {
+                try {
+                    await window.ethereum.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: web3.utils.numberToHex(109) }]
+                    });
+                } catch (switchError) {
+                    if (switchError.code === 4902) {
                         await window.ethereum.request({
-                            method: 'wallet_switchEthereumChain',
-                            params: [{ chainId: web3.utils.numberToHex(109) }]
+                            method: 'wallet_addEthereumChain',
+                            params: [shibariumMainnet]
                         });
-                    } catch (switchError) {
-                        if (switchError.code === 4902) {
-                            await window.ethereum.request({
-                                method: 'wallet_addEthereumChain',
-                                params: [shibariumMainnet]
-                            });
-                        } else {
-                            showModal('Failed to switch network. Please add Shibarium manually.');
-                            return;
-                        }
+                    } else {
+                        showModal('Failed to switch network. Please add Shibarium manually.');
+                        return;
                     }
                 }
-                document.getElementById('walletAddress').innerText = `${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
-                woofContract = new web3.eth.Contract(WOOF_REWARDS_ABI, WOOF_REWARDS_ADDRESS);
-                noneContract = new web3.eth.Contract(NONE_TOKEN_ABI, NONE_TOKEN_ADDRESS);
-                showModal('Connected to Shibarium successfully! 🎉');
-                updateWoofBalance();
-                updateUserInfo(accounts[0]);
-                updateJoinSection();
-                updateRewardsAndPrice();
-            } catch (error) {
-                showModal(`Connection failed: ${error.message}`);
-            } finally {
-                connectButton.classList.remove('loading');
             }
+            document.getElementById('walletAddress').innerText = `${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
+            woofContract = new web3.eth.Contract(WOOF_REWARDS_ABI, WOOF_REWARDS_ADDRESS);
+            noneContract = new web3.eth.Contract(NONE_TOKEN_ABI, NONE_TOKEN_ADDRESS);
+            showModal('Connected to Shibarium successfully! 🎉');
+            updateWoofBalance();
+            updateUserInfo(accounts[0]);
+            updateJoinSection();
+            updateRewardsAndPrice();
+            connectButton.classList.remove('loading');
         }
 
-        // 定时更新
         setInterval(updatePrompt, 3000);
         setInterval(updateWoofBalance, 5000);
         setInterval(updateRewardsAndPrice, 5000);
 
-        // 事件监听
         document.getElementById('connectButton').addEventListener('click', connectWallet);
         document.getElementById('claimButton').addEventListener('click', claimRewards);
 
