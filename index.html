@@ -185,11 +185,6 @@
             font-size: 0.8em;
             color: #fff;
         }
-        .status {
-            margin-top: 10px;
-            font-size: 0.9em;
-            color: #F4A261;
-        }
         .price-info {
             font-size: 0.9em;
             color: #A8B5D4;
@@ -286,11 +281,18 @@
                 Node Reward: 0 WOOF<br>Join Reward: 0 WOOF<br>Referral Reward: 0 WOOF<br>Total: 0 WOOF
             </div>
             <div class="price-info" id="priceInfo">
-                Current WOOF/BONE Price: 0 ETH<br>
-                Target Price: 0.05 ETH
+                Current WOOF/BONE Price: 0.00000 BONE<br>
+                Target Price: 0.05 BONE
             </div>
             <div class="button-group">
                 <button id="claimButton">Claim Rewards</button>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">User ID & Reduction Rules</div>
+            <div class="info-panel" id="userIdInfo">
+                User ID: N/A<br>
+                Reduction Rules: Node reward reduces by 1% every 100 users
             </div>
         </div>
     </div>
@@ -472,8 +474,9 @@
         async function updateRewardsAndPrice() {
             if (!web3 || !woofContract || !accounts) {
                 document.getElementById('userRewards').innerHTML = 'Node Reward: 0 WOOF<br>Join Reward: 0 WOOF<br>Referral Reward: 0 WOOF<br>Total: 0 WOOF';
-                document.getElementById('priceInfo').innerHTML = 'Current WOOF/BONE Price: 0 ETH<br>Target Price: 0.05 ETH';
+                document.getElementById('priceInfo').innerHTML = 'Current WOOF/BONE Price: 0.00000 BONE<br>Target Price: 0.05 BONE';
                 document.getElementById('rewardWoof').innerText = 'Total Rewards: 0 WOOF';
+                document.getElementById('userIdInfo').innerHTML = 'User ID: N/A<br>Reduction Rules: Node reward reduces by 1% every 100 users';
                 return;
             }
             const userInfo = await woofContract.methods.getUserInfo(accounts[0]).call();
@@ -492,9 +495,18 @@
 
             const currentPrice = await woofContract.methods.getWoofBonePrice().call();
             const targetPrice = await woofContract.methods.woofPriceThreshold().call();
+            const currentPriceFormatted = (parseFloat(web3.utils.fromWei(currentPrice, 'ether'))).toFixed(5);
             document.getElementById('priceInfo').innerHTML = `
-                Current WOOF/BONE Price: ${web3.utils.fromWei(currentPrice, 'ether')} ETH<br>
-                Target Price: ${web3.utils.fromWei(targetPrice, 'ether')} ETH
+                Current WOOF/BONE Price: ${currentPriceFormatted} BONE<br>
+                Target Price: ${web3.utils.fromWei(targetPrice, 'ether')} BONE
+            `;
+
+            const userId = await woofContract.methods.userId(accounts[0]).call();
+            const reductionNode = await woofContract.methods.REWARD_REDUCTION_NODE().call();
+            const usersPerReduction = await woofContract.methods.USERS_PER_REDUCTION().call();
+            document.getElementById('userIdInfo').innerHTML = `
+                User ID: ${userId}<br>
+                Reduction Rules: Node reward reduces by ${web3.utils.fromWei(reductionNode, 'ether')}% every ${web3.utils.fromWei(usersPerReduction, 'ether')} users
             `;
         }
 
@@ -576,6 +588,7 @@
         setInterval(updateRewardsAndPrice, 5000);
 
         document.getElementById('connectButton').addEventListener('click', connectWallet);
+        document.getElementById('joinButton').addEventListener('click', joinNetwork);
         document.getElementById('claimButton').addEventListener('click', claimRewards);
 
         window.ethereum?.on('chainChanged', (chainId) => {
