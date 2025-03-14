@@ -7,41 +7,228 @@
     <link rel="icon" type="image/png" href="images/none.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Arial', sans-serif; background: url('images/background.png') no-repeat center center fixed; background-size: cover; position: relative; color: #fff; line-height: 1.4; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: inherit; filter: blur(5px); z-index: -1; }
-        .header, .container, footer, .modal { position: relative; z-index: 1; }
-        .header { padding: 10px 0; text-align: center; width: 100%; }
-        .header-top { display: flex; justify-content: space-between; align-items: center; padding: 0 15px; height: 40px; }
-        .header-top .balance { font-size: 1.1em; color: #F4A261; }
-        .header-top .actions { display: flex; gap: 10px; }
-        .action-btn { background: #34495E; color: #fff; border: none; padding: 5px 10px; border-radius: 10px; font-size: 0.8em; cursor: pointer; }
-        .action-btn i { font-size: 1em; }
-        .header-content { padding: 20px 0; }
-        .header-content h1 { font-size: 1.5em; color: #F4A261; text-transform: uppercase; margin-bottom: 5px; }
-        .profile-section { display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
-        .avatar { width: 24px; height: 24px; border-radius: 50%; margin-right: 8px; }
-        .nickname { font-size: 1em; font-weight: bold; color: #A8B5D4; margin-right: 5px; }
-        .v-icon { width: 16px; height: 16px; vertical-align: middle; }
-        .miner-gif { width: 80px; height: 80px; background: url('images/miner.gif') no-repeat center; background-size: contain; margin: 0 auto 10px; }
-        .miner-prompt { font-size: 0.8em; color: #F4A261; text-align: center; margin-bottom: 10px; animation: fade 3s infinite; }
-        .reward-none { font-size: 0.9em; color: #E07A5F; text-align: center; cursor: pointer; transition: color 0.3s; }
-        .reward-none:hover { color: #F4A261; }
-        @keyframes fade { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
-        .container { width: 100%; max-width: 400px; padding: 0 10px; flex-grow: 1; display: flex; flex-direction: column; gap: 15px; }
-        .section { background: rgba(44, 62, 80, 0.9); padding: 15px; border-radius: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); text-align: center; }
-        .section-title { font-size: 1.1em; color: #F4A261; margin-bottom: 10px; }
-        .button-group { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
-        button { background: #F4A261; color: #fff; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9em; transition: background 0.3s; touch-action: manipulation; }
-        button:hover { background: #E07A5F; }
-        button.loading { opacity: 0.7; pointer-events: none; }
-        .info-panel { background: #34495E; padding: 10px; border-radius: 10px; margin-top: 10px; font-size: 0.8em; color: #fff; }
-        .price-info { font-size: 0.9em; color: #A8B5D4; margin-top: 5px; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); justify-content: center; align-items: center; }
-        .modal-content { background: #2C3E50; padding: 20px; border-radius: 15px; text-align: center; color: #fff; max-width: 300px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); }
-        .modal-content p { margin-bottom: 15px; font-size: 1em; }
-        .modal-content button { background: #F4A261; padding: 8px 15px; border-radius: 20px; font-size: 0.9em; }
-        footer { background: rgba(30, 42, 68, 0.8); text-align: center; padding: 10px; width: 100%; color: #A8B5D4; font-size: 0.8em; margin-top: 20px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('images/background.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            color: #fff;
+            line-height: 1.4;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            filter: blur(5px);
+            z-index: -1;
+        }
+        .header, .container, footer, .modal {
+            position: relative;
+            z-index: 1;
+        }
+        .header {
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            height: 40px;
+        }
+        .header-top .balance {
+            font-size: 1.1em;
+            color: #F4A261;
+        }
+        .header-top .actions {
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            background: #34495E;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            cursor: pointer;
+        }
+        .action-btn i {
+            font-size: 1em;
+        }
+        .header-content {
+            padding: 20px 0;
+        }
+        .header-content h1 {
+            font-size: 1.5em;
+            color: #F4A261;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .profile-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .nickname {
+            font-size: 1em;
+            font-weight: bold;
+            color: #A8B5D4;
+            margin-right: 5px;
+        }
+        .v-icon {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+        }
+        .miner-gif {
+            width: 80px;
+            height: 80px;
+            background: url('images/miner.gif') no-repeat center;
+            background-size: contain;
+            margin: 0 auto 10px;
+        }
+        .miner-prompt {
+            font-size: 0.8em;
+            color: #F4A261;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: fade 3s infinite;
+        }
+        .reward-none {
+            font-size: 0.9em;
+            color: #E07A5F;
+            text-align: center;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .reward-none:hover {
+            color: #F4A261;
+        }
+        @keyframes fade {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 0 10px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .section {
+            background: rgba(44, 62, 80, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        .section-title {
+            font-size: 1.1em;
+            color: #F4A261;
+            margin-bottom: 10px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        button {
+            background: #F4A261;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+            touch-action: manipulation;
+        }
+        button:hover {
+            background: #E07A5F;
+        }
+        button.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .info-panel {
+            background: #34495E;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: #fff;
+        }
+        .price-info {
+            font-size: 0.9em;
+            color: #A8B5D4;
+            margin-top: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #2C3E50;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: #fff;
+            max-width: 300px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .modal-content p {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+        .modal-content button {
+            background: #F4A261;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        footer {
+            background: rgba(30, 42, 68, 0.8);
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            color: #A8B5D4;
+            font-size: 0.8em;
+            margin-top: 20px;
+        }
         @media (max-width: 480px) {
             .header-content h1 { font-size: 1.3em; }
             .miner-gif { width: 60px; height: 60px; }
@@ -130,9 +317,37 @@
 
         const WOOFCHAT_ABI = [{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getNickname","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}];
         const PUNKPET_ABI = [{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserPets","outputs":[{"internalType":"uint256[]","name":"petIds","type":"uint256[]"},{"internalType":"uint256[]","name":"petTypes","type":"uint256[]"},{"internalType":"uint256[]","name":"nextFeedTimes","type":"uint256[]"},{"internalType":"uint256[]","name":"feedCounts","type":"uint256[]"}],"stateMutability":"view","type":"function"}];
-        const shibariumMainnet = { chainId: 109, chainName: 'Shibarium', nativeCurrency: { name: 'BONE', symbol: 'BONE', decimals: 18 }, rpcUrls: ['https://www.shibrpc.com'], blockExplorerUrls: ['https://shibariumscan.io'] };
-        const avatarImages = [null,"1.png","2.png","3.png","4.png","5.png","6.png","7.png","8.png","9.png","10.png","11.png","12.png","13.png","14.png","15.png","16.png","17.png","18.png","19.png","20.png","21.png","22.png","23.png","24.png","25.png","26.png","27.png","28.png","29.png","30.png","31.png","32.png","33.png","34.png","35.png","36.png","37.png","38.png","39.png","40.png","41.png","42.png","43.png","44.png","45.png","46.png","47.png","48.png","49.png","50.png","51.png","52.png","53.png","54.png","55.png","56.png","57.png","58.png","59.png","60.png","61.png","62.png","63.png","64.png","65.png","66.png","67.png","68.png","69.png","70.png","71.png","72.png","73.png","74.png","75.png","76.png","77.png"];
-        const prompts = ["⛏️ Miner, ready your pickaxe! Let's dig some WOOF!","💎 Found any WOOF yet? Keep mining, champ!","⚡ Power up your rig! WOOF awaits you!","🚀 Blast off to the WOOF mines! Go go go!","🔥 Hot streak! Dig deeper for more WOOF!","💰 Jackpot time! Claim WOOF rewards!","⛏️ Swing that pickaxe! WOOF is calling!","🌟 Shine bright, miner! WOOF is your gem!","⚙️ Gear up! The WOOF mines are open!","🎉 Party in the mines! Dig for WOOF now!"];
+        const shibariumMainnet = {
+            chainId: 109,
+            chainName: 'Shibarium',
+            nativeCurrency: { name: 'BONE', symbol: 'BONE', decimals: 18 },
+            rpcUrls: ['https://www.shibrpc.com'],
+            blockExplorerUrls: ['https://shibariumscan.io']
+        };
+        const avatarImages = [
+            null,
+            "1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png", "10.png",
+            "11.png", "12.png", "13.png", "14.png", "15.png", "16.png", "17.png", "18.png", "19.png", "20.png",
+            "21.png", "22.png", "23.png", "24.png", "25.png", "26.png", "27.png", "28.png", "29.png", "30.png",
+            "31.png", "32.png", "33.png", "34.png", "35.png", "36.png", "37.png", "38.png", "39.png", "40.png",
+            "41.png", "42.png", "43.png", "44.png", "45.png", "46.png", "47.png", "48.png", "49.png", "50.png",
+            "51.png", "52.png", "53.png", "54.png", "55.png", "56.png", "57.png", "58.png", "59.png", "60.png",
+            "61.png", "62.png", "63.png", "64.png", "65.png", "66.png", "67.png", "68.png", "69.png", "70.png",
+            "71.png", "72.png", "73.png", "74.png", "75.png", "76.png", "77.png"
+        ];
+
+        const prompts = [
+            "⛏️ Miner, ready your pickaxe! Let's dig some WOOF!",
+            "💎 Found any WOOF yet? Keep mining, champ!",
+            "⚡ Power up your rig! WOOF awaits you!",
+            "🚀 Blast off to the WOOF mines! Go go go!",
+            "🔥 Hot streak! Dig deeper for more WOOF!",
+            "💰 Jackpot time! Claim WOOF rewards!",
+            "⛏️ Swing that pickaxe! WOOF is calling!",
+            "🌟 Shine bright, miner! WOOF is your gem!",
+            "⚙️ Gear up! The WOOF mines are open!",
+            "🎉 Party in the mines! Dig for WOOF now!"
+        ];
         let promptIndex = 0;
 
         function showModal(message) {
@@ -249,8 +464,8 @@
                         <button id="registerButton">Register Network</button>
                     </div>
                 `;
+                document.getElementById('registerButton').addEventListener('click', registerNetwork);
             }
-            document.getElementById('registerButton').addEventListener('click', registerNetwork);
         }
 
         async function updateRewardsAndPrice() {
@@ -301,14 +516,9 @@
             }
             const registerButton = document.getElementById('registerButton');
             registerButton.classList.add('loading');
-            showModal('Registering with WoofRewards network... ⛏️');
-            try {
-                await woofContract.methods.register().send({ from: accounts[0] });
-                showModal('Registered with WoofRewards successfully! 🎉');
-            } catch (error) {
-                showModal('Failed to register. Please try again.');
-                console.error('Register error:', error);
-            }
+            showModal('Registering WoofRewards network... ⛏️');
+            await woofContract.methods.register().send({ from: accounts[0] });
+            showModal('Registered WoofRewards successfully! 🎉');
             updateRegisterSection();
             updateRewardsAndPrice();
             registerButton.classList.remove('loading');
@@ -322,17 +532,8 @@
             const claimButton = document.getElementById('claimButton');
             claimButton.classList.add('loading');
             showModal('Claiming your WOOF rewards... 💰');
-            try {
-                await woofContract.methods.claimRewards().send({ from: accounts[0] });
-                showModal('Rewards claimed successfully! 🎊');
-            } catch (error) {
-                if (error.message.includes("User not joined in NoneToken")) {
-                    showModal('You must join NoneToken first to claim rewards! Visit <a href="https://nonetoken.com" target="_blank">NoneToken</a>.');
-                } else {
-                    showModal('Failed to claim rewards. Check price or wallet.');
-                }
-                console.error('Claim error:', error);
-            }
+            await woofContract.methods.claimRewards().send({ from: accounts[0] });
+            showModal('Rewards claimed successfully! 🎊');
             updateWoofBalance();
             updateRewardsAndPrice();
             claimButton.classList.remove('loading');
@@ -345,44 +546,39 @@
                 return;
             }
             connectButton.classList.add('loading');
-            try {
-                web3 = new Web3(window.ethereum);
-                accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                if (!accounts.length) {
-                    showModal('Please unlock your wallet or connect it.');
-                    return;
-                }
-                const chainId = await web3.eth.getChainId();
-                if (chainId !== 109) {
-                    try {
+            web3 = new Web3(window.ethereum);
+            accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            if (!accounts.length) {
+                showModal('Please unlock your wallet or connect it.');
+                return;
+            }
+            const chainId = await web3.eth.getChainId();
+            if (chainId !== 109) {
+                try {
+                    await window.ethereum.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: web3.utils.numberToHex(109) }]
+                    });
+                } catch (switchError) {
+                    if (switchError.code === 4902) {
                         await window.ethereum.request({
-                            method: 'wallet_switchEthereumChain',
-                            params: [{ chainId: web3.utils.numberToHex(109) }]
+                            method: 'wallet_addEthereumChain',
+                            params: [shibariumMainnet]
                         });
-                    } catch (switchError) {
-                        if (switchError.code === 4902) {
-                            await window.ethereum.request({
-                                method: 'wallet_addEthereumChain',
-                                params: [shibariumMainnet]
-                            });
-                        } else {
-                            showModal('Failed to switch network. Please add Shibarium manually.');
-                            return;
-                        }
+                    } else {
+                        showModal('Failed to switch network. Please add Shibarium manually.');
+                        return;
                     }
                 }
-                document.getElementById('walletAddress').innerText = `${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
-                woofContract = new web3.eth.Contract(WOOF_REWARDS_ABI, WOOF_REWARDS_ADDRESS);
-                noneContract = new web3.eth.Contract(NONE_TOKEN_ABI, NONE_TOKEN_ADDRESS);
-                await updateWoofBalance();
-                await updateUserInfo(accounts[0]);
-                await updateRegisterSection();
-                await updateRewardsAndPrice();
-                showModal('Connected to Shibarium successfully! 🎉');
-            } catch (error) {
-                showModal('Failed to connect wallet. Check MetaMask and network.');
-                console.error('Connect error:', error);
             }
+            document.getElementById('walletAddress').innerText = `${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
+            woofContract = new web3.eth.Contract(WOOF_REWARDS_ABI, WOOF_REWARDS_ADDRESS);
+            noneContract = new web3.eth.Contract(NONE_TOKEN_ABI, NONE_TOKEN_ADDRESS);
+            showModal('Connected to Shibarium successfully! 🎉');
+            updateWoofBalance();
+            updateUserInfo(accounts[0]);
+            updateRegisterSection();
+            updateRewardsAndPrice();
             connectButton.classList.remove('loading');
         }
 
